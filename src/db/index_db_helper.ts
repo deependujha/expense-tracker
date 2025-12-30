@@ -1,5 +1,4 @@
 import { Expense } from "@/components/constants/types";
-import { toast } from 'sonner'
 
 export const DB_NAME = "expense-tracker";
 export const STORE_NAME = "expenses";
@@ -80,7 +79,6 @@ export const deleteExpenseFromDB = async ( id: string ) => {
     db.transaction( STORE_NAME, "readwrite" )
         .objectStore( STORE_NAME )
         .delete( id );
-    toast.error( 'Expense deleted successfully!' );
 };
 
 
