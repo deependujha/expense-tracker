@@ -73,7 +73,6 @@ export const saveExpense = async ( expense: Expense ) => {
     db.transaction( STORE_NAME, "readwrite" )
         .objectStore( STORE_NAME )
         .put( expense );
-    toast.success( 'Expense added successfully!' );
 };
 
 export const deleteExpenseFromDB = async ( id: string ) => {
