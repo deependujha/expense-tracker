@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+*{
+  background-color: black;
+}
+
 /* Full-height, dark-only baseline */
 html,
 body {
