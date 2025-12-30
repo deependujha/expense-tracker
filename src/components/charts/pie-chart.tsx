@@ -56,6 +56,14 @@ export function ChartPieDonutText( {
         [ data ]
     );
 
+    const enriched = React.useMemo(
+        () => data.map( ( d ) => ( {
+            ...d,
+            percent: total > 0 ? Math.round( ( d.value / total ) * 100 ) : 0,
+        } ) ),
+        [ data, total ]
+    );
+
     return (
         <Card>
             <CardHeader className="items-center pb-0">
@@ -63,7 +71,23 @@ export function ChartPieDonutText( {
                 <CardDescription>{ getCurrentMonthAndYear() }</CardDescription>
             </CardHeader>
 
-            <CardContent className="flex justify-center pb-0">
+            <CardContent className="flex flex-col justify-center pb-0">
+                <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs">
+                    { enriched.map( ( item ) => (
+                        <div
+                            key={ item.name }
+                            className="flex items-center gap-2 rounded-full border px-3 py-1"
+                        >
+                            <span
+                                className="h-2.5 w-2.5 rounded-full"
+                                style={ { backgroundColor: item.fill } }
+                            />
+                            <span className="font-medium">{ item.name }</span>
+                            <span className="text-muted-foreground">{ item.percent }%</span>
+                        </div>
+                    ) ) }
+                </div>
+
                 <ChartContainer config={ chartConfig } className="aspect-square max-h-65 w-full">
                     <PieChart>
                         <ChartTooltip
@@ -71,12 +95,14 @@ export function ChartPieDonutText( {
                             content={ <ChartTooltipContent hideLabel /> }
                         />
                         <Pie
-                            data={ data }
+                            data={ enriched }
                             dataKey="value"
                             nameKey="name"
                             innerRadius={ 70 }
                             outerRadius={ 100 }
                             strokeWidth={ 4 }
+                            label={ false }
+                            labelLine={ false }
                         >
 
                             <Label
