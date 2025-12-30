@@ -141,54 +141,62 @@ export const TodayTab = () => {
             ) }
 
             { !loading && (
-                <ul className="space-y-3">
-                    { expenses.map( ( e ) => (
-                        <li
-                            key={ e.id }
-                            className="grid grid-cols-[auto_1fr_auto] gap-3 items-start rounded-lg border border-neutral-200 p-3"
-                        >
-                            {/* Column 1 */ }
-                            <div className="flex flex-col items-center gap-1 min-w-12">
-                                <span className="text-lg">{ e.category.emoji }</span>
-                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-200 text-neutral-700">
-                                    { e.category.name }
-                                </span>
-                            </div>
-
-                            {/* Column 2 */ }
-                            <div className="flex flex-col justify-center leading-snug">
-                                <span className="font-medium">{ e.title }</span>
-                                <span className="text-sm text-neutral-500">
-                                    { e.description || "N/A" }
-                                </span>
-                                {/* Actions */ }
-                                <button
-                                    onClick={ () => editExpense( e.id ) }
-                                    className="mt-1 text-xs text-neutral-400 hover:text-blue-500 self-start"
+                expenses.length === 0 ? (
+                    <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-neutral-300 bg-neutral-50 p-6 text-center text-neutral-500">
+                        Add your first expense to see it here.
+                    </div>
+                ) : (
+                    <div className="rounded-lg border border-neutral-200 bg-white p-3">
+                        <ul className="space-y-3">
+                            { expenses.map( ( e ) => (
+                                <li
+                                    key={ e.id }
+                                    className="grid grid-cols-[auto_1fr_auto] gap-3 items-start rounded-lg border border-neutral-200 p-3"
                                 >
-                                    Edit
-                                </button>
-                            </div>
+                                    {/* Column 1 */ }
+                                    <div className="flex flex-col items-center gap-1 min-w-12">
+                                        <span className="text-lg">{ e.category.emoji }</span>
+                                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-200 text-neutral-700">
+                                            { e.category.name }
+                                        </span>
+                                    </div>
 
-                            {/* Column 3 */ }
-                            <div className="flex flex-col items-end gap-1">
-                                <span className="font-semibold">₹{ e.amount }</span>
-                                <span className="text-xs text-neutral-400">
-                                    { new Date( e.createdAt ).toLocaleTimeString( [], {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                    } ) }
-                                </span>
-                                <button
-                                    onClick={ () => deleteExpense( e.id ) }
-                                    className="text-xs text-neutral-400 hover:text-red-500"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </li>
-                    ) ) }
-                </ul>
+                                    {/* Column 2 */ }
+                                    <div className="flex flex-col justify-center leading-snug">
+                                        <span className="font-medium">{ e.title }</span>
+                                        <span className="text-sm text-neutral-500">
+                                            { e.description || "N/A" }
+                                        </span>
+                                        {/* Actions */ }
+                                        <button
+                                            onClick={ () => editExpense( e.id ) }
+                                            className="mt-1 text-xs text-neutral-400 hover:text-blue-500 self-start"
+                                        >
+                                            Edit
+                                        </button>
+                                    </div>
+
+                                    {/* Column 3 */ }
+                                    <div className="flex flex-col items-end gap-1">
+                                        <span className="font-semibold">₹{ e.amount }</span>
+                                        <span className="text-xs text-neutral-400">
+                                            { new Date( e.createdAt ).toLocaleTimeString( [], {
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                            } ) }
+                                        </span>
+                                        <button
+                                            onClick={ () => deleteExpense( e.id ) }
+                                            className="text-xs text-neutral-400 hover:text-red-500"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </li>
+                            ) ) }
+                        </ul>
+                    </div>
+                )
             ) }
 
             {/* Bottom Sheet */ }
