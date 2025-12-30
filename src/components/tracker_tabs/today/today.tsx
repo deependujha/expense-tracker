@@ -221,7 +221,7 @@ export const TodayTab = () => {
                         <select
                             value={ categoryId }
                             onChange={ ( e ) => setCategoryId( e.target.value ) }
-                            className="w-full border p-2 rounded"
+                            className="w-full border px-3 py-3 min-h-12 rounded text-base"
                         >
                             { DEFAULT_CATEGORIES.map( ( c ) => (
                                 <option key={ c.id } value={ c.id }>
@@ -252,15 +252,26 @@ export const TodayTab = () => {
                             className="w-full border p-2 rounded"
                         />
 
-                        <button
-                            onClick={ saveOrUpdateExpense }
-                            className="w-full bg-black text-white py-2 rounded-xl font-medium"
-                        >
-                            { editingId ? "Update Expense" : "Add Expense" }
-                        </button>
+                        {/* Actions */ }
+                        <div className="flex gap-3 pt-2">
+                            <button
+                                onClick={ resetForm }
+                                className="flex-1 border border-neutral-300 text-neutral-600 py-2 rounded-xl font-medium"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                onClick={ saveOrUpdateExpense }
+                                className="flex-1 bg-black text-white py-2 rounded-xl font-medium"
+                            >
+                                { editingId ? "Update" : "Add" }
+                            </button>
+                        </div>
                     </div>
                 </div>
             ) }
+
 
             {/* FAB */ }
             { !loading && (
