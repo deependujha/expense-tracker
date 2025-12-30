@@ -1,36 +1,170 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Expense Tracker
 
-## Getting Started
+A simple, private, local-first expense tracker built for daily use.
 
-First, run the development server:
+This app is designed to be **used**, not marketed.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Why this exists
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Most expense trackers:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* require accounts
+* collect data
+* show ads
+* push subscriptions
+* overcomplicate basic tracking
 
-## Learn More
+This app does none of that.
 
-To learn more about Next.js, take a look at the following resources:
+It’s meant for **one person (or two)** who just want to log expenses quickly and look at them later.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Core principles
 
-## Deploy on Vercel
+* **No authentication**
+* **No backend**
+* **No ads**
+* **No analytics**
+* **No data collection**
+* **No cloud sync (by design)**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Your data lives **only in your browser**, stored locally using **IndexedDB**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If you delete the browser data, the expenses are gone.
+That’s the tradeoff for privacy and simplicity.
+
+---
+
+## How it works
+
+* Built as a **web app**
+* Uses **IndexedDB** for persistence
+* Works fully offline after first load
+* Optimized for mobile usage
+
+The app has four sections:
+
+### Today
+
+* Add expenses
+* Edit today’s entries
+* Quick, frictionless logging
+
+### History
+
+* Read-only view of past expenses
+* Grouped by day
+* No editing or deletion (intentional)
+
+### Stats
+
+* Monthly overview
+* Category-wise breakdown
+* Visual distribution of spending
+
+### More
+
+* Guest profile
+* Option to delete all local data
+
+---
+
+## How you’re expected to use it
+
+This is important.
+
+### First time
+
+1. Open the website in your mobile browser (Chrome / Safari)
+2. Add it to your **Home Screen**
+
+   * iOS: Share → Add to Home Screen
+   * Android: Browser menu → Add to Home Screen
+
+Now it behaves like an app.
+
+### Daily usage
+
+* Open the app
+* Add an expense **immediately after a transaction**
+* Don’t overthink categories
+* Don’t optimize prematurely
+
+The goal is **habit**, not perfection.
+
+---
+
+## Data & privacy
+
+* All data is stored locally in **IndexedDB**
+* Nothing is sent to any server
+* No tracking scripts
+* No cookies
+* No user identification
+
+This app cannot see your data.
+That’s the point.
+
+---
+
+## Limitations (intentional)
+
+* No login
+* No sync across devices
+* No backups
+* No sharing
+
+If, after using this daily for a month or two, syncing feels necessary — then it’s earned.
+
+Until then, local-only keeps things fast, private, and distraction-free.
+
+---
+
+## Tech stack (for the curious)
+
+* Next.js
+* React
+* Tailwind CSS
+* IndexedDB
+* Recharts (for stats)
+
+No backend. No database server. No auth provider.
+
+---
+
+## Future ideas (only if needed)
+
+* Optional login
+* Cloud sync (MongoDB / Supabase / etc.)
+* Export / import data
+* Multi-device support
+
+None of these are planned until daily usage proves they’re worth the complexity.
+
+---
+
+## Philosophy
+
+> Software should adapt to habits, not demand them.
+
+This app stays out of your way.
+If it helps you become more aware of spending, it’s doing its job.
+
+---
+
+If you want, next time we can:
+
+* add export/import
+* add optional backup
+* or deliberately **not add anything** and keep it boring
+
+Boring software that works is a success.
+
+---
+
+*Credits*:
+
+Special thanks to [ChatGPT](https://chat.openai.com/) and [GitHub Copilot](https://github.com/features/copilot) for their assistance.
