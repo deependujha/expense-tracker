@@ -37,8 +37,10 @@ const getCurrentMonthAndYear = () => {
 
 export function ChartPieDonutText( {
     data,
+    selectedMonth,
 }: {
     data: PieDatum[];
+    selectedMonth: string;
 } ) {
     const chartConfig = React.useMemo( () =>
         data.reduce( ( acc, curr ) => {
@@ -68,7 +70,7 @@ export function ChartPieDonutText( {
         <Card>
             <CardHeader className="items-center pb-0">
                 <CardTitle>Expense Distribution</CardTitle>
-                <CardDescription>{ getCurrentMonthAndYear() }</CardDescription>
+                <CardDescription>{ selectedMonth }</CardDescription>
             </CardHeader>
 
             <CardContent className="flex flex-col justify-center pb-0">

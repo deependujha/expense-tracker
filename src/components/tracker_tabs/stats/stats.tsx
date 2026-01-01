@@ -9,6 +9,7 @@ import {
 } from "@/components/charts/pie-chart";
 import {
     MonthKey,
+    formatMonth,
     getRecentMonths,
 } from "./month-utils";
 import { MonthScroller } from "./month-scroller";
@@ -91,6 +92,7 @@ export const StatsTab = () => {
     }
 
     if ( monthlyExpenses.length === 0 ) {
+        console.log( "No expenses for", selectedMonth );
         return (
             <div className="p-4 space-y-6">
                 <MonthScroller
@@ -152,12 +154,12 @@ export const StatsTab = () => {
             />
 
             {/* Pie chart */ }
-            <ChartPieDonutText data={ pieData } />
+            <ChartPieDonutText data={ pieData } selectedMonth={ formatMonth( selectedMonth ) } />
 
             {/* Summary */ }
             <div className="rounded-lg border border-neutral-200 bg-white p-4 space-y-2">
                 <div className="text-sm text-neutral-500">
-                    Total this month
+                    Total expense in { formatMonth( selectedMonth ) }
                 </div>
                 <div className="text-2xl font-semibold">
                     ₹{ total }
