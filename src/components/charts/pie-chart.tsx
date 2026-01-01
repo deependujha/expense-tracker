@@ -130,7 +130,7 @@ export function ChartPieDonutText( {
                                                 y={ ( viewBox.cy || 0 ) + 22 }
                                                 className="fill-muted-foreground text-sm"
                                             >
-                                                This month
+                                                {selectedMonth}
                                             </tspan>
                                         </text>
                                     );
