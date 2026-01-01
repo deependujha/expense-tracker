@@ -1,0 +1,56 @@
+// Prisma schema for Pocket
+// Personal-first, simple, extensible
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/**
+ * =========================
+ * User
+ * =========================
+ */
+
+model User {
+  id         String  @id @default(cuid())
+  email      String  @unique
+  name       String?
+  image      String? // Google profile picture
+  provider   String // "google"
+  providerId String // Google sub
+
+  createdAt DateTime @default(now())
+  lastLoginAt DateTime @updatedAt
+
+  expenses Expense[]
+
+  @@index([email])
+}
+
+/**
+ * =========================
+ * Expense
+ * =========================
+ */
+
+model Expense {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  categoryId  String // matches DEFAULT_CATEGORIES ids
+  title       String
+  description String?
+  amount      Int // store in smallest unit (₹)
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([categoryId])
+}

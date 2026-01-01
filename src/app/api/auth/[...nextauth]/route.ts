@@ -1,31 +1,66 @@
-import NextAuth, { NextAuthOptions } from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
+import NextAuth, { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import { prisma } from "@/prisma/connection";
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
 
 const authOptions: NextAuthOptions = {
     session: {
-        strategy: 'jwt',
+        strategy: "jwt",
     },
+
     providers: [
-        // OAuth authentication providers...
         GoogleProvider( {
             clientId: GOOGLE_CLIENT_ID,
-            clientSecret: GOOGLE_CLIENT_SECRET
+            clientSecret: GOOGLE_CLIENT_SECRET,
         } ),
     ],
+
     callbacks: {
         async signIn( { account, profile } ) {
-            if ( !profile?.email ) {
-                throw new Error( "No email found in user profile" );
+            if ( !profile?.email || !account?.providerAccountId ) {
+                throw new Error( "Invalid Google profile" );
             }
-            console.log( "User signed in:", profile.email, profile.name, account?.provider );
+
+            // Idempotent: safe to run every login
+            const result = await prisma.user.upsert( {
+                where: {
+                    email: profile.email,
+                },
+                update: {
+                    name: profile.name,
+                    image: ( profile as any ).picture,
+                },
+                create: {
+                    email: profile.email,
+                    name: profile.name,
+                    image: ( profile as any ).picture,
+                    provider: account.provider,          // "google"
+                    providerId: account.providerAccountId // Google sub
+                },
+            } );
+
             return true;
-        }
-    }
-}
+        },
+
+        async jwt( { token, profile } ) {
+            // Persist email on token
+            if ( profile?.email ) {
+                token.email = profile.email;
+            }
+            return token;
+        },
+
+        async session( { session, token } ) {
+            if ( token.email && session.user ) {
+                session.user.email = token.email as string;
+            }
+            return session;
+        },
+    },
+};
 
 const handler = NextAuth( authOptions );
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

@@ -28,7 +28,7 @@ export const LoginPage = () => {
                 {/* CTA */ }
                 <button
                     onClick={ () => signIn( "google" ) }
-                    className="mt-8 w-full max-w-sm flex items-center justify-center gap-3 rounded-xl bg-black py-3 text-white font-medium hover:bg-neutral-800"
+                    className="mt-8 w-full max-w-sm flex items-center justify-center gap-3 rounded-xl bg-black py-3 text-white font-medium hover:bg-neutral-800 cursor-pointer"
                 >
                     <img src="/google.svg" alt="" className="h-5 w-5" />
                     Continue with Google

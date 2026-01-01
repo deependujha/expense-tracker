@@ -92,7 +92,6 @@ export const StatsTab = () => {
     }
 
     if ( monthlyExpenses.length === 0 ) {
-        console.log( "No expenses for", selectedMonth );
         return (
             <div className="p-4 space-y-6">
                 <MonthScroller
