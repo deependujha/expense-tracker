@@ -3,6 +3,7 @@
 import { clearAllData } from "@/db/index_db_helper";
 import { toast } from "sonner";
 import { FaUser } from "react-icons/fa6";
+import { CURRENT_VERSION } from "@/constants/version"
 
 
 
@@ -30,6 +31,7 @@ export const MoreTab = () => {
                     <FaUser size={ 40 } />
                 </div>
                 <div className="text-lg font-medium">Guest</div>
+                <div className="text-sm font-light">version: { CURRENT_VERSION }</div>
             </div>
 
             {/* Danger zone */ }

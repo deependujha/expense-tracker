@@ -8,7 +8,7 @@ import {
     CategoryMap,
     DEFAULT_CATEGORIES,
     Expense,
-} from "@/components/constants/types";
+} from "@/constants/types";
 import {
     deleteExpenseFromDB,
     getTodayExpenses,

@@ -5,11 +5,14 @@ import { getAllExpenses } from "@/db/index_db_helper";
 import {
     CategoryMap,
     Expense,
-} from "@/components/constants/types";
+} from "@/constants/types";
 import {
     ChartPieDonutText,
     PieDatum,
 } from "@/components/charts/pie-chart";
+import { MonthKey, formatMonth, getRecentMonths } from "./month-utils";
+import { MonthScroller } from "./month-scroller";
+
 
 /* ---------- Helpers ---------- */
 
@@ -37,12 +40,27 @@ const groupByCategory = ( expenses: Expense[] ) => {
 
 /* ---------- Component ---------- */
 
+const now = new Date();
+
 export const StatsTab = () => {
+
+    const [ selectedMonth, setSelectedMonth ] = useState( {
+        year: now.getFullYear(),
+        month: now.getMonth(),
+    } );
     const [ loading, setLoading ] = useState( true );
     const [ monthlyExpenses, setMonthlyExpenses ] = useState<Expense[]>( [] );
 
+    const getMonthRange = ( { year, month }: MonthKey ) => {
+        const start = new Date( year, month, 1 ).getTime();
+        const end = new Date( year, month + 1, 0, 23, 59, 59, 999 ).getTime();
+        return { start, end };
+    };
+    const months = getRecentMonths( 6 );
+
+
     useEffect( () => {
-        const { start, end } = getCurrentMonthRange();
+        const { start, end } = getMonthRange( selectedMonth );
 
         getAllExpenses()
             .then( ( expenses ) => {
@@ -53,7 +71,7 @@ export const StatsTab = () => {
                 );
             } )
             .finally( () => setLoading( false ) );
-    }, [] );
+    }, [ selectedMonth ] );
 
     if ( loading ) {
         return (
@@ -65,8 +83,15 @@ export const StatsTab = () => {
 
     if ( monthlyExpenses.length === 0 ) {
         return (
-            <div className="flex h-full items-center justify-center text-neutral-400">
-                No expenses this month.
+            <div className="p-4 space-y-6">
+                <MonthScroller
+                    months={ months }
+                    selected={ selectedMonth }
+                    onSelect={ setSelectedMonth }
+                />
+                <div className="text-center text-neutral-400 flex flex-col h-[85vh] items-center justify-center">
+                    No expenses this month.
+                </div>
             </div>
         );
     }
@@ -95,6 +120,11 @@ export const StatsTab = () => {
     return (
         <div className="p-4 space-y-6">
             {/* Pie Chart */ }
+            <MonthScroller
+                months={ months }
+                selected={ selectedMonth }
+                onSelect={ setSelectedMonth }
+            />
             <ChartPieDonutText data={ pieData } />
 
             {/* Summary */ }

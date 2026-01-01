@@ -1,4 +1,4 @@
-import { Expense } from "@/components/constants/types";
+import { Expense } from "@/constants/types";
 
 export const DB_NAME = "expense-tracker";
 export const STORE_NAME = "expenses";
